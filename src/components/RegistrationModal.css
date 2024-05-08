@@ -1,0 +1,60 @@
+.ant-btn-primary {
+  background-color: #4ae290 !important;
+  border-color: #4ae290 !important;
+}
+
+.ant-btn-primary:hover {
+  background-color: rgba(124, 229, 173, 0.941) !important;
+}
+
+.ant-input:hover,
+.ant-input-password:hover {
+    border-color: #4ae290 !important;
+}
+
+.ant-input:focus,
+.ant-input-password:focus {
+    border-color: #4ae290 !important;
+}
+
+.RegistrationModal .ant-picker:hover .ant-picker-input > input, 
+.RegistrationModal .ant-picker-focused .ant-picker-input > input {
+    border-color: #4ae290 !important;
+}
+
+.RegistrationModal .ant-radio-wrapper:hover .ant-radio-input:focus + .ant-radio-inner, 
+.RegistrationModal .ant-radio-wrapper-focused .ant-radio-input:focus + .ant-radio-inner {
+    border-color: #4ae290 !important;
+}
+
+.registration-sections {
+  display: flex;
+  margin-left: 15%;
+  margin-right: 15%;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.registration-sections button {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 20px;
+  color: #000;
+  transition: color 0.3s;
+}
+
+.registration-sections button:hover {
+  color: #4ae290;
+}
+
+.registration-sections .active {
+  border-bottom: 2px solid #4ae290;
+  color: #4ae290;
+}
+
+.registration-sections button:focus {
+  color: #4ae290;
+}
