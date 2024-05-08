@@ -1,0 +1,40 @@
+.contact-widget {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.cw-text {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  transition: all 0.3s ease;
+}
+
+.cw-text:hover {
+  background-color: #4ae290;
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cw-text img {
+  margin-right: 15px;
+}
+
+.map {
+  margin-top: 30px;
+}
+
+.map iframe {
+  width: 80%;
+  height: 500px;
+  margin: 0 auto;
+  border: none;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
