@@ -1,41 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { message } from 'antd';
 
 const UserForm = () => {
+  const [user, setUser] = useState({ firstName: '', lastName: '' });
   const navigate = useNavigate();
-  const logout = () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No token found');
-      navigate('/');
-      return;
-    }
 
-    fetch('http://localhost:8080/logout', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data.message);
-        if (data.success) {
-          message.success("You have been logged out.")
-          localStorage.removeItem('token');
-          navigate('/');
-        }
-      })
-      .catch(error => console.error('Error:', error));
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('user'));
+    if (userData) {
+      setUser(userData);
+    } else {
+      message.error("No user data found. Please log in again.");
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    message.success("You have been logged out.");
+    navigate('/');
   };
 
-
   return (
-    <section id='user' className='section' >
+    <section id='user' className='section'>
       <div>
-        <h1>hello</h1>
-        <button onClick={logout}>Click</button>
+        <h1>Hello, {user.firstName} {user.lastName}</h1>
+        <button onClick={logout}>Log Out</button>
       </div>
     </section>
   );

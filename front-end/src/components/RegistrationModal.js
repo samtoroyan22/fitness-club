@@ -59,15 +59,14 @@ const RegistrationModal = ({ visible, onClose, initialSection }) => {
       });
 
       const data = await response.json();
-
       if (response.ok) {
         localStorage.setItem('token', data.accessToken);
-
-        onClose();
+        localStorage.setItem('user', JSON.stringify(data.userInfo));
         message.success('Login successful');
+        onClose();
         navigate('/user');
       } else {
-        message.error(`Login failed: ${data.message}`); 
+        message.error(`Login failed: ${data.message}`);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -75,6 +74,7 @@ const RegistrationModal = ({ visible, onClose, initialSection }) => {
     }
     setLoading(false);
   };
+
 
 
   return (

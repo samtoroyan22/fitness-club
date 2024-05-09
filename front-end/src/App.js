@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 
@@ -16,21 +16,30 @@ import Contact from './components/Contact';
 import UserForm from './components/UserForm';
 
 const App = () => {
-  // Initialize Aos
   Aos.init({
     duration: 2500,
     delay: 400,
-  });
+});
+
+const PrivateRoute = ({ children }) => {
+  return isAuthenticated() ? children : <Navigate to="/" />;
+};
+
+const PublicRoute = ({ children }) => {
+  return isAuthenticated() ? <Navigate to="/user" /> : children;
+};
+
+const isAuthenticated = () => {
+  return !!localStorage.getItem('token');
+};
+
 
   return (
     <Router>
-      <div
-        className="max-w-[1920px] mx-auto bg-page overflow-hidden relative"
-      >
+      <div className="max-w-[1920px] mx-auto bg-page overflow-hidden relative">
         <Routes>
-          <Route
-            path="/"
-            element={
+          <Route path="/" element={
+            <PublicRoute>
               <>
                 <Header />
                 <Banner />
@@ -43,10 +52,18 @@ const App = () => {
                 <Contact />
                 <Footer />
               </>
-            }
-          />
-          <Route path="user" element={<UserForm/>}></Route>
-          <Route path="admin" element={<UserForm/>}></Route>
+            </PublicRoute>
+          } />
+          <Route path="/user" element={
+            <PrivateRoute>
+              <UserForm />
+            </PrivateRoute>
+          } />
+          <Route path="/admin" element={
+            <PrivateRoute>
+              <UserForm />
+            </PrivateRoute>
+          } />
         </Routes>
       </div>
     </Router>
