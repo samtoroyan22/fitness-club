@@ -3,6 +3,13 @@ const cors = require("cors");
 const { Pool } = require("pg");
 const bcrypt = require("bcrypt");
 const app = express();
+const jwt = require("jsonwebtoken");
+require('dotenv').config();
+
+if (!process.env.ACCESS_TOKEN_SECRET) {
+  console.error('ERROR: ACCESS_TOKEN_SECRET environment variable is not set.');
+  process.exit(1);
+}
 
 app.use(cors({ origin: "*" }));
 app.use(express.json());
@@ -15,7 +22,22 @@ const pool = new Pool({
   port: 5432,
 });
 
-// Endpoint for registering new users
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) {
+      console.error('Token verification failed:', err.message);
+      return res.sendStatus(403);
+    }
+    req.user = user;
+    next();
+  });
+}
+
+
 app.post("/register", async (req, res) => {
   const { firstName, lastName, birthdate, gender, phoneNumber, email, password } = req.body;
   try {
@@ -36,7 +58,6 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// Endpoint for user login
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -46,7 +67,12 @@ app.post("/login", async (req, res) => {
     if (user.rows.length > 0) {
       const isValid = await bcrypt.compare(password, user.rows[0].password);
       if (isValid) {
-        res.json({ success: true, message: "You are logged in!" });
+        const accessToken = jwt.sign(
+          { email: user.rows[0].email, id: user.rows[0].id },
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: '24h' }
+        );
+        res.json({ success: true, message: "You are logged in!", accessToken });
       } else {
         res.status(401).json({ success: false, message: "Invalid credentials" });
       }
@@ -57,6 +83,10 @@ app.post("/login", async (req, res) => {
     console.error('Error during login:', error);
     res.status(500).json({ success: false, message: "Database error during login" });
   }
+});
+
+app.post("/logout", authenticateToken, (req, res) => {
+  res.json({ success: true, message: "You have been logged out." });
 });
 
 const PORT = process.env.PORT || 8080;

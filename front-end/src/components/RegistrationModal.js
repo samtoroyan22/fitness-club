@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Modal, Form, Input, DatePicker, Radio, Button } from 'antd';
+import { Modal, Form, Input, DatePicker, Radio, Button, message } from 'antd';
 import './RegistrationModal.css';
 
 const RegistrationModal = ({ visible, onClose, initialSection }) => {
@@ -34,7 +34,7 @@ const RegistrationModal = ({ visible, onClose, initialSection }) => {
 
       if (response.ok) {
         onClose();
-        alert("Registration successful");
+        message.success('Registration successful');
         navigate('/user');
       } else {
         alert(`Registration failed: ${data.message}`);
@@ -61,18 +61,21 @@ const RegistrationModal = ({ visible, onClose, initialSection }) => {
       const data = await response.json();
 
       if (response.ok) {
+        localStorage.setItem('token', data.accessToken);
+
         onClose();
-        alert("Login successful");
+        message.success('Login successful');
         navigate('/user');
       } else {
-        alert(`Login failed: ${data.message}`);
+        message.error(`Login failed: ${data.message}`); 
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      message.error("An error occurred. Please try again.");
     }
     setLoading(false);
   };
+
 
   return (
     <Modal
@@ -94,7 +97,7 @@ const RegistrationModal = ({ visible, onClose, initialSection }) => {
       </div>
       <Form form={form} name="registration_form" onFinish={section === 'registration' ? handleRegister : handleLogin} layout="vertical">
         {section === 'registration' && (
-          <>     
+          <>
             <Form.Item
               name="firstName"
               label="Имя"
