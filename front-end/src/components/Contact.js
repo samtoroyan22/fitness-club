@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 import React from 'react';
 import './Contact.css';
 import ContactIcon from '../assets/img/contact/icons/contact.svg';

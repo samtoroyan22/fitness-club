@@ -98,9 +98,9 @@ app.post("/login", async (req, res) => {
           uniq_id: user.rows[0].uniq_id
         };
 
-        const isAdmin = (user.rows[0].uniq_id === '330b1cf0-b745-4f98-a59b-00aa52868289' ? true : false);
+        const isAdmin = (user.rows[0].uniq_id === "9f8aadbb-1aa3-4f43-9331-f197b46ad4eb");
 
-        res.json({ success: true, message: "You are logged in!", accessToken, userInfo, isAdmin }); // ISADMIN
+        res.json({ success: true, message: "You are logged in!", accessToken, userInfo, isAdmin });
       } else {
         res.status(401).json({ success: false, message: "Invalid credentials" });
       }
@@ -112,9 +112,6 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ success: false, message: "Database error during login" });
   }
 });
-
-
-
 
 app.post("/logout", authenticateToken, (req, res) => {
   res.json({ success: true, message: "You have been logged out." });
@@ -131,4 +128,11 @@ app.get("/", redirectIfAuthenticated, (req, res) => {
 
 app.get("/user", authenticateToken, (req, res) => {
   res.send("Welcome to the User Page. You are logged in.");
+});
+
+app.get("/admin", authenticateToken, (req, res) => {
+  if (req.user.uniq_id !== "9f8aadbb-1aa3-4f43-9331-f197b46ad4eb") {
+    return res.sendStatus(403);
+  }
+  res.send("Welcome to the Admin Page. You are logged in as an admin.");
 });

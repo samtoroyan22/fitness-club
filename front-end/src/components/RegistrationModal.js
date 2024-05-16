@@ -64,7 +64,11 @@ const RegistrationModal = ({ visible, onClose, initialSection }) => {
         localStorage.setItem('user', JSON.stringify(data.userInfo));
         message.success('Login successful');
         onClose();
-        navigate('/user');
+        if (data.isAdmin) {
+          navigate('/admin');
+        } else {
+          navigate('/user');
+        }
       } else {
         message.error(`Login failed: ${data.message}`);
       }
@@ -74,8 +78,6 @@ const RegistrationModal = ({ visible, onClose, initialSection }) => {
     }
     setLoading(false);
   };
-
-
 
   return (
     <Modal

@@ -13,26 +13,35 @@ import Join from './components/Join';
 import Footer from './components/Footer';
 import Timetable from './components/TimeTable';
 import Contact from './components/Contact';
-import UserForm from './components/UserForm';
+import UserForm from './components/Forms/UserForm';
+import AdminForm from './components/Forms/AdminForm';
 
 const App = () => {
   Aos.init({
     duration: 2500,
     delay: 400,
-});
+  });
 
-const PrivateRoute = ({ children }) => {
-  return isAuthenticated() ? children : <Navigate to="/" />;
-};
+  const isAuthenticated = () => {
+    return !!localStorage.getItem('token');
+  };
 
-const PublicRoute = ({ children }) => {
-  return isAuthenticated() ? <Navigate to="/user" /> : children;
-};
+  const isAdmin = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user && user.uniq_id === "9f8aadbb-1aa3-4f43-9331-f197b46ad4eb";
+  };
 
-const isAuthenticated = () => {
-  return !!localStorage.getItem('token');
-};
+  const PrivateRoute = ({ children }) => {
+    return isAuthenticated() ? children : <Navigate to="/" />;
+  };
 
+  const AdminRoute = ({ children }) => {
+    return isAuthenticated() && isAdmin() ? children : <Navigate to="/" />;
+  };
+
+  const PublicRoute = ({ children }) => {
+    return isAuthenticated() ? <Navigate to={isAdmin() ? "/admin" : "/user"} /> : children;
+  };
 
   return (
     <Router>
@@ -60,9 +69,9 @@ const isAuthenticated = () => {
             </PrivateRoute>
           } />
           <Route path="/admin" element={
-            <PrivateRoute>
-              <UserForm />
-            </PrivateRoute>
+            <AdminRoute>
+              <AdminForm />
+            </AdminRoute>
           } />
         </Routes>
       </div>

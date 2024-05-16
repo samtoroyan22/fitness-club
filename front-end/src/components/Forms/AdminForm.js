@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { message } from 'antd';
 
-const UserForm = () => {
+const AdminForm = () => {
   const [user, setUser] = useState({ firstName: '', lastName: '' });
   const navigate = useNavigate();
 
@@ -12,7 +12,7 @@ const UserForm = () => {
       setUser(userData);
     } else {
       message.error("No user data found. Please log in again.");
-      navigate('/login');
+      navigate('/');
     }
   }, [navigate]);
 
@@ -24,13 +24,13 @@ const UserForm = () => {
   };
 
   return (
-    <section id='user' className='section'>
+    <section id='admin' className='section'>
       <div>
-        <h1>Hello, {user.firstName} {user.lastName}</h1>
+        <h1>Welcome, Admin {user.firstName} {user.lastName}</h1>
         <button onClick={logout}>Log Out</button>
       </div>
     </section>
   );
 };
 
-export default UserForm;
+export default AdminForm;

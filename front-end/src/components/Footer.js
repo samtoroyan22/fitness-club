@@ -1,6 +1,5 @@
 import React from 'react';
 import { footer } from '../data';
-import { BsInstagram, BsFacebook, BsTelegram, BsWhatsapp } from 'react-icons/bs';
 
 const Footer = () => {
   const { logo, copyrightText, icons } = footer;
@@ -14,7 +13,7 @@ const Footer = () => {
           </a>
           <div className='flex space-x-4'>
             {icons.map((Icon, index) => (
-              <a href='https://www.youtube.com/' target='_blank' key={index}>
+              <a href='https://www.youtube.com/' target='_blank' key={index} rel="noreferrer">
                 <Icon className='w-6 h-6 text-white hover:text-gray-300 transition duration-300' />
               </a>
             ))}

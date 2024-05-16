@@ -1,0 +1,56 @@
+.logo {
+  height: 30px;
+}
+
+.site-layout-background {
+  background: #fff;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+}
+
+.ant-page-header {
+  display: flex;
+  align-items: center;
+}
+
+.ant-typography {
+  margin: 0;
+}
+
+.ant-table {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ant-table-thead > tr > th {
+  background-color: #fafafa;
+  text-align: center;
+}
+
+.ant-table-tbody > tr > td {
+  text-align: center;
+}
+
+.ant-card {
+  margin-bottom: 24px;
+}
+
+.ant-btn-primary {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+
+.ant-btn-primary:hover {
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+}
+
+.ant-btn-primary:focus {
+  background-color: #096dd9;
+  border-color: #096dd9;
+}
